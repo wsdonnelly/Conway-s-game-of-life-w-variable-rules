@@ -1,7 +1,7 @@
 #include "gol.hpp"
 
 //make all a single color
-void DrawCell(SDL_Surface *screen, int x, int y, uint32_t color)
+inline void DrawCell(SDL_Surface *screen, int x, int y, uint32_t color)
 {
 	uint8_t *pixel_ptr = (uint8_t *)screen->pixels + (y * CELL_SIZE * SCREEN_SIZE + x * CELL_SIZE) * 4;
 

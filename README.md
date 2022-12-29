@@ -6,4 +6,5 @@
 - set the specific number of neighbors (1 - 8) for a dead cell to be born
 ## requires SDl2 libray installed
 
-Readme is a work in progress.......
+Readme and program is a work in progress.......
+

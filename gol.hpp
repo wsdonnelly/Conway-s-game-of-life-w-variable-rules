@@ -5,13 +5,13 @@
 #include <ctime>
 #include <iostream>
 
-#define OFF_COLOR 0x00
-#define ON_COLOR 0xff
+const int OFF_COLOR = 0x00;
+const int ON_COLOR = 0xff;
 
 
-#define MAP_SIZE 500
-#define CELL_SIZE 3
-#define SCREEN_SIZE (MAP_SIZE * CELL_SIZE)
+const int MAP_SIZE = 500;
+const int CELL_SIZE = 3;
+const int SCREEN_SIZE = (MAP_SIZE * CELL_SIZE);
 
 class Controls {
 	public:
@@ -39,7 +39,7 @@ class CellMap {
 };
 
 
-void DrawCell(SDL_Surface *screen, int x, int y, int s_width, uint32_t color);
+inline void DrawCell(SDL_Surface *screen, int x, int y, int s_width, uint32_t color);
 void event_handler(SDL_Event event, CellMap *map, Controls *controls, bool *quit);
 
 #endif

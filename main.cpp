@@ -1,5 +1,4 @@
 #include "gol.hpp"
-//#include <iostream>
 
 int main()
 {
@@ -34,13 +33,10 @@ int main()
 
 		map.evolve(screen, &controls);
 		SDL_UpdateWindowSurface(window);
-		//SDL_Delay(50);
+		SDL_Delay(10);
 	}
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 	
 	return 0;
 }
-
-
-//clang++ --std=c++11 main.cpp gol_functions.cpp -I /Library/Frameworks/SDL2.framework/Headers -F /Library/Frameworks -framework SDl2
