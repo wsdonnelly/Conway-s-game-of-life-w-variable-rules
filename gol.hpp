@@ -35,7 +35,7 @@ class CellMap {
 		bool is_alive(unsigned int i);
 		void toggle_cell(unsigned int i);
 		void set_neighbors(unsigned int i, bool kill);
-		void evolve(SDL_Surface *screen, Controls *controls);
+		void evolve(SDL_Surface *screen, Controls &controls);
 };
 
 

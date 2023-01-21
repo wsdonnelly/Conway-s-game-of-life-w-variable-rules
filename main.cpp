@@ -31,7 +31,7 @@ int main()
 		while (SDL_PollEvent(&event))
 			event_handler(event, &map, &controls, &quit);
 
-		map.evolve(screen, &controls);
+		map.evolve(screen, controls);
 		SDL_UpdateWindowSurface(window);
 		SDL_Delay(10);
 	}
