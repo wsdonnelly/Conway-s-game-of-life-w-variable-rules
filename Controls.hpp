@@ -1,11 +1,8 @@
 #ifndef CONTROLS_HPP
 #define CONTROLS_HPP
 
-#include <SDL.h>
-
 class Controls {
 	public:
-		//friend class CelllMap;
 		unsigned int low = 2;
 		unsigned int high = 3;
 		unsigned int born = 3;

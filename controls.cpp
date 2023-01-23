@@ -1,6 +1,5 @@
 #include <iostream>
 #include "Controls.hpp"
-//#include "CellMap.hpp"
 
 void Controls::move_low_down()
 {

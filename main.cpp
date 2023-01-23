@@ -63,7 +63,6 @@ int main()
 	bool quit = false;
 	while (!quit)
 	{
-		//SDL_Event event; why is here in examples?
 		while (SDL_PollEvent(&event))
 			event_handler(event, map, controls, &quit);
 

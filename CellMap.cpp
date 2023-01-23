@@ -1,10 +1,10 @@
-#include "CellMap.hpp"
-
 #include <ctime>
+#include "CellMap.hpp"
 
 CellMap::CellMap () {
 	this->init_map();
 }
+
 void CellMap::init_map()
 {
 	srand(time(0));
