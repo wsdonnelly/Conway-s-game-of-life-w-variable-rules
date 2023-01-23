@@ -1,7 +1,54 @@
-#include "gol.hpp"
+#include "CellMap.hpp"
+
+#include <ctime>
+
+CellMap::CellMap () {
+	this->init_map();
+}
+void CellMap::init_map()
+{
+	srand(time(0));
+	
+	for (int i = 0; i < MAP_SIZE * MAP_SIZE; i++)
+	{
+		if (rand() % 100 < 3)
+			toggle_cell(i);
+	}
+}
+
+void CellMap::evolve(SDL_Surface *screen, Controls &controls)
+{
+	unsigned int count;
+	unsigned int size = MAP_SIZE * MAP_SIZE;
+	
+	memcpy(map_copy, map, size);
+	for (int i = 0; i < size; i++)
+	{
+		if (map_copy[i])
+		{
+			count = map_copy[i] >> 1; 
+			if (map_copy[i] & 0x01) //is alive
+			{
+				if (count < controls.low || count > controls.high)
+				{
+					toggle_cell(i);
+					DrawCell(screen, i % MAP_SIZE, i / MAP_SIZE, OFF_COLOR);
+				}
+			}
+			else //is dead
+			{
+				if (count == controls.born)
+				{
+					toggle_cell(i);
+					DrawCell(screen, i % MAP_SIZE, i / MAP_SIZE, ON_COLOR);
+				}
+			}
+		}
+	}
+}
 
 //make all a single color
-inline void DrawCell(SDL_Surface *screen, int x, int y, uint32_t color)
+void CellMap::DrawCell(SDL_Surface *screen, int x, int y, uint32_t color)
 {
 	uint8_t *pixel_ptr = (uint8_t *)screen->pixels + (y * CELL_SIZE * SCREEN_SIZE + x * CELL_SIZE) * 4;
 
@@ -59,50 +106,5 @@ void CellMap::set_neighbors(unsigned int i, bool kill)
 		map[i + (up + right)] += 0x02;
 		map[i + (down + left)] += 0x02;
 		map[i + (down + right)] += 0x02;
-	}
-}
-
-void CellMap::init_map()
-{
-	srand(time(0));
-	int i;
-
-	for (i = 0; i < MAP_SIZE * MAP_SIZE; i++)
-	{	
-		
-		if (rand() % 100 < 3)
-			toggle_cell(i);
-	}
-}
-
-
-void CellMap::evolve(SDL_Surface *screen, Controls &controls)
-{
-	unsigned int count;
-	unsigned int size = MAP_SIZE * MAP_SIZE;
-	
-	memcpy(map_copy, map, size);
-	for (unsigned int i = 0; i < size; i++)
-	{
-		if (map_copy[i])
-		{
-			count = map_copy[i] >> 1; 
-			if (map_copy[i] & 0x01) //is alive
-			{
-				if (count < controls.low || count > controls.high)
-				{
-					toggle_cell(i);
-					DrawCell(screen, i % MAP_SIZE, i / MAP_SIZE, OFF_COLOR);
-				}
-			}
-			else //is dead
-			{
-				if (count == controls.born)
-				{
-					toggle_cell(i);
-					DrawCell(screen, i % MAP_SIZE, i / MAP_SIZE, ON_COLOR);
-				}
-			}
-		}
 	}
 }

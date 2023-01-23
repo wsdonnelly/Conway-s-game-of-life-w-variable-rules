@@ -1,25 +1,25 @@
-NAME = g_o_l
+NAME = gol
 CC = g++
 #CFLAGS = --std=c++11 -Wall -fsanatize=address
 CFLAGS = --std=c++11 -Wall
-SRCS = main.cpp gol_functions.cpp controls.cpp events.cpp
-OBJS = main.o gol_functions.o controls.o events.o
+SRCS = main.cpp CellMap.cpp Controls.cpp 
+OBJS = main.o CellMap.o Controls.o 
 #INCLUDES = -I /Library/Frameworks/SDL2.framework/Headers
 #FRAMEWORK = -F /Library/Frameworks -framework SDl2
-INCLUDES = -I lib/include/SDL2/
-LIB = -L lib/ -lSDL2
+INCLUDES = -I SDL_binaries/include/SDL2/
+LIB_OSX = -L SDL_binaries/osx/ -lSDL2
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-#	$(CC) -o g_o_l $(OBJS) $(FRAMEWORK)
-	$(CC) -o g_o_l $(OBJS) $(LIB) 
+#	$(CC) -o gol $(OBJS) $(FRAMEWORK)
+	$(CC) -o $(NAME) $(OBJS) $(LIB_OSX) 
 
-$(OBJS): $(SRCS) gol.hpp
+$(OBJS): $(SRCS) CellMap.hpp Controls.hpp
 	$(CC) $(CFLAGS) -c $(SRCS) $(INCLUDES)
 
 clean:
-	rm *.o
+	rm -f *.o
 fclean: clean
-	rm $(NAME)
+	rm -f $(NAME)
 re: fclean all
