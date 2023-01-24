@@ -11,10 +11,14 @@ void CellMap::init_map()
 	
 	for (int i = 0; i < MAP_SIZE * MAP_SIZE; i++)
 	{
+		if (is_alive(i)){
+			toggle_cell(i);
+		}
 		if (rand() % 100 < 3)
 			toggle_cell(i);
 	}
 }
+
 
 void CellMap::evolve(SDL_Surface *screen, Controls &controls)
 {
@@ -29,7 +33,8 @@ void CellMap::evolve(SDL_Surface *screen, Controls &controls)
 			count = map_copy[i] >> 1; 
 			if (map_copy[i] & 0x01) //is alive
 			{
-				if (count < controls.low || count > controls.high)
+				//if (count < controls.low || count > controls.high)
+				if (count == controls.low || count == controls.high) //weird and cool
 				{
 					toggle_cell(i);
 					DrawCell(screen, i % MAP_SIZE, i / MAP_SIZE, OFF_COLOR);

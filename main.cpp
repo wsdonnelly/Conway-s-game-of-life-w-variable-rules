@@ -3,12 +3,12 @@
 #include "Controls.hpp"
 #include "CellMap.hpp"
 
-static inline void event_handler(SDL_Event event, CellMap &map, Controls &controls, bool *quit)
+static inline void event_handler(SDL_Event event, SDL_Window *window, CellMap &map, Controls &controls, bool *quit)
 {
 	if (event.type == SDL_QUIT)
 		*quit = true;
 	if (event.key.keysym.scancode == SDL_SCANCODE_R){
-		//SDL_UpdateWindowSurface(window);
+		SDL_UpdateWindowSurface(window);
 		map.init_map();
 	}
 	if (event.key.keysym.scancode == SDL_SCANCODE_K && event.type == SDL_KEYUP)
@@ -64,8 +64,7 @@ int main()
 	while (!quit)
 	{
 		while (SDL_PollEvent(&event))
-			event_handler(event, map, controls, &quit);
-
+			event_handler(event, window, map, controls, &quit);
 		map.evolve(screen, controls);
 		SDL_UpdateWindowSurface(window);
 		SDL_Delay(10);

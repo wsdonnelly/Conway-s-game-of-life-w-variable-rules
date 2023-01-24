@@ -6,8 +6,6 @@
 
 const int OFF_COLOR = 0x00;
 const int ON_COLOR = 0xff;
-
-
 const int MAP_SIZE = 500;
 const int CELL_SIZE = 3;
 const int SCREEN_SIZE = (MAP_SIZE * CELL_SIZE);
@@ -24,6 +22,7 @@ class CellMap {
 	public:
 		CellMap();
 		void init_map();
+		void clear_map();
 		void evolve(SDL_Surface *screen, Controls &controls);
 };
 
