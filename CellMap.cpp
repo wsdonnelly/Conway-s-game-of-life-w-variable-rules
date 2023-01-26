@@ -22,7 +22,7 @@ void CellMap::evolve(SDL_Surface *screen, Controls &controls)
 	unsigned int size = MAP_SIZE * MAP_SIZE;
 	
 	memcpy(map_copy, map, size);
-	for (int i = 0; i < size; i++)
+	for (unsigned int i = 0; i < size; i++)
 	{
 		if (map_copy[i])
 		{
@@ -56,9 +56,12 @@ void CellMap::DrawCell(SDL_Surface *screen, int x, int y, uint32_t color)
 	{
 		for (int j = 0; j < CELL_SIZE; j++)
 		{
-			*(pixel_ptr + j * 4) = color; //r
-			*(pixel_ptr + j * 4 + 1) = color; //g
-			*(pixel_ptr + j * 4 + 2) = color; //b
+			*(pixel_ptr + j * 4 + 2) = color >> 24; //r
+			*(pixel_ptr + j * 4 + 1) = color >> 16; //g
+			*(pixel_ptr + j * 4) = color >> 8; //b
+			// *(pixel_ptr + j * 4 + 2) = 0xAB; //r
+			// *(pixel_ptr + j * 4 + 1) = 0x47; //g
+			// *(pixel_ptr + j * 4) = 0xBC; //b
 		}
 		//go to next row
 		pixel_ptr += SCREEN_SIZE * 4;

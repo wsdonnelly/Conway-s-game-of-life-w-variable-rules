@@ -4,8 +4,8 @@
 #include <SDL.h>
 #include "Controls.hpp"
 
-const int OFF_COLOR = 0x00;
-const int ON_COLOR = 0xff;
+const uint32_t OFF_COLOR = 0x00000000;
+const uint32_t ON_COLOR = 0xD500F9FF;
 
 
 const int MAP_SIZE = 500;

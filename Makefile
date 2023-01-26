@@ -1,6 +1,6 @@
 NAME = gol
 CC = g++
-FLAGS = --std=c++11 -Wall -v
+FLAGS = --std=c++11 -Wall 
 SRCS = main.cpp CellMap.cpp Controls.cpp 
 OBJS = $(SRCS:.cpp=.o)
 INCLUDES = -I SDL_binaries/include/SDL2/
