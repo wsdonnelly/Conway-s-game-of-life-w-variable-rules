@@ -1,5 +1,5 @@
 #include <ctime>
-#include "CellMap.hpp"
+#include "cellmap.hpp"
 
 CellMap::CellMap () {
 	this->init_map();

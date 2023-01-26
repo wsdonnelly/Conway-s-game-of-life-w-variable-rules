@@ -2,7 +2,7 @@
 #define CELL_MAP_HPP
 
 #include <SDL.h>
-#include "Controls.hpp"
+#include "controls.hpp"
 
 const uint32_t OFF_COLOR = 0x00000000;
 const uint32_t ON_COLOR = 0xD500F9FF;
@@ -28,3 +28,4 @@ class CellMap {
 };
 
 #endif
+

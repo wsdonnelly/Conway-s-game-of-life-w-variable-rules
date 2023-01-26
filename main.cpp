@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SDL.h>
-#include "Controls.hpp"
-#include "CellMap.hpp"
+#include "controls.hpp"
+#include "cellmap.hpp"
 
 static inline void event_handler(SDL_Event event, CellMap &map, Controls &controls, bool *quit)
 {
