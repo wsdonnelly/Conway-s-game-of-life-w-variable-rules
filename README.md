@@ -6,5 +6,13 @@
 - and set the specific number of neighbors (1 - 8) for a dead cell to be born
 ## requires SDl2 libray installed
 
-This is currently a work in progress, 
+This is currently a work in progress. I have included precompiled binaries of the SDL2 library, this seems to work on some computers and not others. 
+If you have SDl2 installed please update the path in the Makefile untill i come up with a better fix; most likely building the library on compilation.
 
+## controls
+- move the window so you can also see your terminal
+- 'k' and 'l' will move the low range up and down. 'o' and 'p' will move the high range up and down.
+- eg. the game starts with the range to stay alive between 2 and 3. 
+- so a range of 1-3 maeans anything less than 1 (0) or anything greater than (3) will die on the subsequent round
+- numbers 1 - 8 will select the number of neighbors in order for a new cell to be born.
+- r reseeds the board
