@@ -1,31 +1,33 @@
 NAME = gol
 CC = g++
 FLAGS = --std=c++11 -Wall
-SRCS = main.cpp cellmap.cpp controls.cpp
-OBJS = $(SRCS:.cpp=.o)
+SRCS = srcs/main.cpp srcs/cellmap.cpp srcs/controls.cpp
+OBJS_DIR = objs/
+OBJS = $(addprefix $(OBJS_DIR), $(notdir $(SRCS:.cpp=.o)))
 HDRS = include/cellmap.hpp include/controls.hpp
-INCLUDES = -I SDL_binaries/include/SDL2/ -I include/
-DYLIB = -L SDL_binaries/osx/ -lSDL2
+INCLUDE = -I include/
+LIB_INCLUDE = -I ../SDL2/include 
+LIB = `sdl2-config --libs`
+INCLUDES = $(LIB_INCLUDE) $(INCLUDE)
+
 RM = rm -rf
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) $(DYLIB) -o $(NAME) 
+	$(CC) $(OBJS) $(LIB) -o $(NAME)
 
-%.o: %.cpp $(HDRS)
+$(OBJS_DIR)%.o: srcs/%.cpp $(HDRS)
+	mkdir -p $(OBJS_DIR)
 	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
-.PHONY: clean fclean run debug
+.PHONY: clean fclean run
 
 run: $(NAME)
 	./$(NAME)
 
-debug: FLAGS += -g
-debug: re
-
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJS_DIR)
 
 fclean: clean
 	$(RM) $(NAME)

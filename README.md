@@ -6,8 +6,7 @@
 - and set the specific number of neighbors (1 - 8) for a dead cell to be born
 ## requires SDl2 libray installed
 
-This is currently a work in progress. I have included precompiled binaries of the SDL2 library, this seems to work on some computers and not others. 
-If you have SDl2 installed please update the path in the Makefile untill i come up with a better fix; most likely building the library on compilation.
+for the time being this requires that you have SDL2 installed and that
 
 ## controls
 - move the window so you can also see your terminal
