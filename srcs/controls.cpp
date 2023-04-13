@@ -1,5 +1,5 @@
 #include <iostream>
-#include "controls.hpp"
+#include "Controls.hpp"
 
 void Controls::move_low_down()
 {

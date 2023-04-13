@@ -2,7 +2,9 @@
 #define CELL_MAP_HPP
 
 #include <SDL.h>
-#include "controls.hpp"
+#include <vector>
+#include <cstdint>
+#include "Controls.hpp"
 
 const uint32_t OFF_COLOR = 0x00000000;
 const uint32_t ON_COLOR = 0xD500F9FF;
@@ -14,16 +16,16 @@ const int SCREEN_SIZE = (MAP_SIZE * CELL_SIZE);
 
 class CellMap {
 	private:
-		uint8_t map[MAP_SIZE * MAP_SIZE] = {0};
-		uint8_t map_copy[MAP_SIZE * MAP_SIZE];
+		std::vector<uint8_t> cell_map;
+		std::vector<uint8_t> cell_map_copy;
+
+		void init_cell_map();
+		void toggle_cell(int i);
+		bool is_alive(int i);
+		void set_neighbors(int i, bool kill);
 		void DrawCell(SDL_Surface *screen, int x, int y, uint32_t color);
-		bool is_alive(unsigned int i);
-		void toggle_cell(unsigned int i);
-		void set_neighbors(unsigned int i, bool kill);
-		
 	public:
 		CellMap();
-		void init_map();
 		void evolve(SDL_Surface *screen, Controls &controls);
 };
 

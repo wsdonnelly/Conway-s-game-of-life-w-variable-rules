@@ -1,44 +1,32 @@
-#include <ctime>
-#include "cellmap.hpp"
+#include "CellMap.hpp"
 
-CellMap::CellMap () {
-	this->init_map();
+CellMap::CellMap(): cell_map(MAP_SIZE * MAP_SIZE, 0) {
+	this->init_cell_map();
 }
 
-void CellMap::init_map()
-{
-	srand(time(0));
-	
-	for (int i = 0; i < MAP_SIZE * MAP_SIZE; i++)
-	{
+void CellMap::init_cell_map() {
+	for (int i = 0; i < cell_map.size(); i++) {
 		if (rand() % 100 < 3)
 			toggle_cell(i);
 	}
 }
 
-void CellMap::evolve(SDL_Surface *screen, Controls &controls)
-{
-	unsigned int count;
-	unsigned int size = MAP_SIZE * MAP_SIZE;
-	
-	memcpy(map_copy, map, size);
-	for (unsigned int i = 0; i < size; i++)
-	{
-		if (map_copy[i])
-		{
-			count = map_copy[i] >> 1; 
-			if (map_copy[i] & 0x01) //is alive
-			{
-				if (count < controls.low || count > controls.high)
-				{
+void CellMap::evolve(SDL_Surface *screen, Controls &controls) {
+
+	int num_neighbors;
+
+	cell_map_copy = cell_map;
+	for (int i = 0; i < cell_map.size(); i++) {
+		if (cell_map_copy[i]) {
+			num_neighbors = cell_map_copy[i] >> 1; 
+			if (cell_map_copy[i] & 0x01) { //is alive
+				if (num_neighbors < controls.low || num_neighbors > controls.high) {
 					toggle_cell(i);
 					DrawCell(screen, i % MAP_SIZE, i / MAP_SIZE, OFF_COLOR);
 				}
 			}
-			else //is dead
-			{
-				if (count == controls.born)
-				{
+			else { //is dead
+				if (num_neighbors == controls.born) {
 					toggle_cell(i);
 					DrawCell(screen, i % MAP_SIZE, i / MAP_SIZE, ON_COLOR);
 				}
@@ -68,18 +56,18 @@ void CellMap::DrawCell(SDL_Surface *screen, int x, int y, uint32_t color)
 	}
 }
 
-bool CellMap::is_alive(unsigned int i) {
-	return (map[i] & 0x01);
-}
+// bool CellMap::is_alive(int i) {
+// 	return (cell_map[i] & 0x01);
+// }
 
-void CellMap::toggle_cell(unsigned int i)
-{
-	bool kill = is_alive(i);
-	map[i] ^= 0x01;
+void CellMap::toggle_cell(int i) {
+	//bool kill = is_alive(i);
+	bool kill = cell_map[i] & 0x01;
+	cell_map[i] ^= 0x01;
 	set_neighbors(i, kill);
 }
 
-void CellMap::set_neighbors(unsigned int i, bool kill)
+void CellMap::set_neighbors(int i, bool kill)
 {
 	int up, left, right, down;
 
@@ -90,24 +78,24 @@ void CellMap::set_neighbors(unsigned int i, bool kill)
 
 	if (kill)
 	{
-		map[i + left] -= 0x02;
-		map[i + right] -= 0x02;
-		map[i + up] -= 0x02;
-		map[i + down] -= 0x02;
-		map[i + (up + left)] -= 0x02;
-		map[i + (up + right)] -= 0x02;
-		map[i + (down + left)] -= 0x02;
-		map[i + (down + right)] -= 0x02;
+		cell_map[i + left] -= 0x02;
+		cell_map[i + right] -= 0x02;
+		cell_map[i + up] -= 0x02;
+		cell_map[i + down] -= 0x02;
+		cell_map[i + (up + left)] -= 0x02;
+		cell_map[i + (up + right)] -= 0x02;
+		cell_map[i + (down + left)] -= 0x02;
+		cell_map[i + (down + right)] -= 0x02;
 	}
 	else
 	{
-		map[i + left] += 0x02;
-		map[i + right] += 0x02;
-		map[i + up] += 0x02;
-		map[i + down] += 0x02;
-		map[i + (up + left)] += 0x02;
-		map[i + (up + right)] += 0x02;
-		map[i + (down + left)] += 0x02;
-		map[i + (down + right)] += 0x02;
+		cell_map[i + left] += 0x02;
+		cell_map[i + right] += 0x02;
+		cell_map[i + up] += 0x02;
+		cell_map[i + down] += 0x02;
+		cell_map[i + (up + left)] += 0x02;
+		cell_map[i + (up + right)] += 0x02;
+		cell_map[i + (down + left)] += 0x02;
+		cell_map[i + (down + right)] += 0x02;
 	}
 }

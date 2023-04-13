@@ -1,16 +1,17 @@
 #include <iostream>
 #include <SDL.h>
-#include "controls.hpp"
-#include "cellmap.hpp"
+#include "Controls.hpp"
+#include "CellMap.hpp"
+#include <ctime>
 
 static inline void event_handler(SDL_Event event, CellMap &map, Controls &controls, bool *quit)
 {
 	if (event.type == SDL_QUIT)
 		*quit = true;
-	if (event.key.keysym.scancode == SDL_SCANCODE_R){
-		//SDL_UpdateWindowSurface(window);
-		map.init_map();
-	}
+	// if (event.key.keysym.scancode == SDL_SCANCODE_R){
+	// 	//SDL_UpdateWindowSurface(window);
+	// 	map.init_map();
+	// }
 	if (event.key.keysym.scancode == SDL_SCANCODE_K && event.type == SDL_KEYUP)
 		controls.move_low_down();
 	if (event.key.keysym.scancode == SDL_SCANCODE_L && event.type == SDL_KEYUP)
@@ -42,7 +43,7 @@ int main()
 	SDL_Window *window = nullptr;
 	SDL_Surface *screen = nullptr;
 
-	//init sdl
+	//init sdl FIX UP
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		std::cout << "SDL could not be initialized: " << SDL_GetError();
 	else
@@ -55,20 +56,24 @@ int main()
 			SCREEN_SIZE,
 			SDL_WINDOW_SHOWN);
 	screen = SDL_GetWindowSurface(window);
+	
+	srand(time(0));
 
 	Controls controls;
-	CellMap map;
+	CellMap cell_map;
+
 	controls.display();
 	SDL_Event event;
 	bool quit = false;
 	while (!quit)
 	{
 		while (SDL_PollEvent(&event))
-			event_handler(event, map, controls, &quit);
+			event_handler(event, cell_map, controls, &quit);
 
-		map.evolve(screen, controls);
+		cell_map.evolve(screen, controls);
 		SDL_UpdateWindowSurface(window);
 		SDL_Delay(10);
+		
 	}
 	SDL_DestroyWindow(window);
 	SDL_Quit();
