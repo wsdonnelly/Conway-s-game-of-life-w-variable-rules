@@ -1,4 +1,5 @@
 #include "CellMap.hpp"
+#include <algorithm>
 
 CellMap::CellMap(): cell_map(MAP_SIZE * MAP_SIZE, 0) {
 	this->init_cell_map();
@@ -9,6 +10,11 @@ void CellMap::init_cell_map() {
 		if (rand() % 100 < 3)
 			toggle_cell(i);
 	}
+}
+
+void CellMap::reset() {
+	std::fill(cell_map.begin(), cell_map.end(), 0);
+	init_cell_map();
 }
 
 void CellMap::evolve(SDL_Surface *screen, Controls &controls) {
@@ -56,46 +62,34 @@ void CellMap::DrawCell(SDL_Surface *screen, int x, int y, uint32_t color)
 	}
 }
 
-// bool CellMap::is_alive(int i) {
-// 	return (cell_map[i] & 0x01);
-// }
-
 void CellMap::toggle_cell(int i) {
-	//bool kill = is_alive(i);
-	bool kill = cell_map[i] & 0x01;
+
+	bool is_alive = cell_map[i] & 0x01;
 	cell_map[i] ^= 0x01;
-	set_neighbors(i, kill);
+	update_neighbors(i, is_alive);
 }
 
-void CellMap::set_neighbors(int i, bool kill)
-{
-	int up, left, right, down;
+void CellMap::set_neighbors(int i, int sign) {
 
+	cell_map[i + left] += (0x02 * sign);
+	cell_map[i + right] += (0x02 * sign);
+	cell_map[i + up] += (0x02 * sign);
+	cell_map[i + down] += (0x02 * sign);
+	cell_map[i + (up + left)] += (0x02 * sign);
+	cell_map[i + (up + right)] += (0x02 * sign);
+	cell_map[i + (down + left)] += (0x02 * sign);
+	cell_map[i + (down + right)] += (0x02 * sign);
+}
+
+void CellMap::update_neighbors(int i, bool is_alive)
+{
 	left = (i % MAP_SIZE == 0) ? MAP_SIZE - 1 : - 1;
 	right = (i % MAP_SIZE == MAP_SIZE - 1) ? -(MAP_SIZE - 1): 1;
 	up = (i < MAP_SIZE) ? (MAP_SIZE * (MAP_SIZE - 1)) : -MAP_SIZE;
 	down = (i / MAP_SIZE == MAP_SIZE - 1) ? -(MAP_SIZE * (MAP_SIZE - 1)) : MAP_SIZE;
 
-	if (kill)
-	{
-		cell_map[i + left] -= 0x02;
-		cell_map[i + right] -= 0x02;
-		cell_map[i + up] -= 0x02;
-		cell_map[i + down] -= 0x02;
-		cell_map[i + (up + left)] -= 0x02;
-		cell_map[i + (up + right)] -= 0x02;
-		cell_map[i + (down + left)] -= 0x02;
-		cell_map[i + (down + right)] -= 0x02;
-	}
+	if (is_alive)
+		set_neighbors(i, -1);
 	else
-	{
-		cell_map[i + left] += 0x02;
-		cell_map[i + right] += 0x02;
-		cell_map[i + up] += 0x02;
-		cell_map[i + down] += 0x02;
-		cell_map[i + (up + left)] += 0x02;
-		cell_map[i + (up + right)] += 0x02;
-		cell_map[i + (down + left)] += 0x02;
-		cell_map[i + (down + right)] += 0x02;
-	}
+		set_neighbors(i, 1);
 }

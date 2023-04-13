@@ -3,9 +3,9 @@
 
 class Controls {
 	public:
-		unsigned int low = 2;
-		unsigned int high = 3;
-		unsigned int born = 3;
+		int low = 2;
+		int high = 3;
+		int born = 3;
 		void move_low_down();
 		void move_low_up();
 		void move_high_up();

@@ -18,15 +18,19 @@ class CellMap {
 	private:
 		std::vector<uint8_t> cell_map;
 		std::vector<uint8_t> cell_map_copy;
-
+		int left, right, up, down;
+		
 		void init_cell_map();
+		void reset();
 		void toggle_cell(int i);
-		bool is_alive(int i);
-		void set_neighbors(int i, bool kill);
+		void update_neighbors(int i, bool is_alive);
+		void set_neighbors(int i, int sign);
 		void DrawCell(SDL_Surface *screen, int x, int y, uint32_t color);
 	public:
 		CellMap();
 		void evolve(SDL_Surface *screen, Controls &controls);
+		friend void event_handler(SDL_Event event, SDL_Surface *screen, CellMap &cell_map, Controls &controls, bool *quit);
+		friend class Controls;
 };
 
 #endif
